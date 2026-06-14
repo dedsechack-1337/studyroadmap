@@ -1,4 +1,4 @@
-import { useState, useMemo } from "react";
+import { useState, useMemo, useEffect } from "react";
 import { useRoadmap } from "./hooks/useRoadmap";
 import { topics, phases } from "./data/roadmap";
 import PhaseSection from "./components/PhaseSection";
@@ -24,6 +24,23 @@ export default function App() {
   const [searchQuery, setSearchQuery] = useState("");
   const [filterPhase, setFilterPhase] = useState<number | null>(null);
   const [showPriorityOnly, setShowPriorityOnly] = useState(false);
+
+  // ── Dark mode ──
+  const [darkMode, setDarkMode] = useState<boolean>(() => {
+    const saved = localStorage.getItem("darkMode");
+    if (saved !== null) return saved === "true";
+    return window.matchMedia("(prefers-color-scheme: dark)").matches;
+  });
+
+  useEffect(() => {
+    const root = document.documentElement;
+    if (darkMode) {
+      root.classList.add("dark");
+    } else {
+      root.classList.remove("dark");
+    }
+    localStorage.setItem("darkMode", String(darkMode));
+  }, [darkMode]);
 
 
   const totalSubtopics = useMemo(() => topics.reduce((s, t) => s + t.subtopics.length, 0), []);
@@ -70,9 +87,9 @@ export default function App() {
   };
 
   return (
-    <div className="min-h-screen bg-slate-50 flex flex-col">
+    <div className="min-h-screen bg-slate-50 dark:bg-slate-950 flex flex-col transition-colors duration-300">
       {/* ── Top Nav ── */}
-      <header className="sticky top-0 z-30 bg-white/90 backdrop-blur-md border-b border-slate-200 shadow-sm">
+      <header className="sticky top-0 z-30 bg-white/90 dark:bg-slate-900/90 backdrop-blur-md border-b border-slate-200 dark:border-slate-800 shadow-sm">
         <div className="max-w-7xl mx-auto px-4 py-3 flex items-center gap-3">
           {/* Logo */}
           <div className="flex items-center gap-2 flex-shrink-0">
@@ -80,14 +97,14 @@ export default function App() {
               <span className="text-white text-sm">🧠</span>
             </div>
             <div className="hidden sm:block">
-              <h1 className="font-extrabold text-slate-800 text-sm leading-none">Master Roadmap</h1>
-              <p className="text-[10px] text-slate-400 leading-none">57 Topics · 9 Phases</p>
+              <h1 className="font-extrabold text-slate-800 dark:text-slate-100 text-sm leading-none">Master Roadmap</h1>
+              <p className="text-[10px] text-slate-400 dark:text-slate-500 leading-none">57 Topics · 9 Phases</p>
             </div>
           </div>
 
           {/* Search */}
           <div className="flex-1 max-w-sm relative">
-            <svg className="absolute left-2.5 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+            <svg className="absolute left-2.5 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400 dark:text-slate-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
               <path strokeLinecap="round" strokeLinejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
             </svg>
             <input
@@ -95,10 +112,10 @@ export default function App() {
               placeholder="Search topics..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="w-full pl-8 pr-3 py-1.5 text-sm bg-slate-100 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-violet-400 focus:bg-white transition-colors"
+              className="w-full pl-8 pr-3 py-1.5 text-sm bg-slate-100 dark:bg-slate-800 text-slate-800 dark:text-slate-100 border border-slate-200 dark:border-slate-700 rounded-xl focus:outline-none focus:ring-2 focus:ring-violet-400 focus:bg-white dark:focus:bg-slate-800 transition-colors placeholder:text-slate-400 dark:placeholder:text-slate-500"
             />
             {searchQuery && (
-              <button onClick={() => setSearchQuery("")} className="absolute right-2.5 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600">
+              <button onClick={() => setSearchQuery("")} className="absolute right-2.5 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600 dark:text-slate-500 dark:hover:text-slate-300">
                 <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
                   <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
                 </svg>
@@ -109,20 +126,28 @@ export default function App() {
           {/* Progress mini */}
           <div className="hidden md:flex items-center gap-2 min-w-[120px]">
             <ProgressBar value={overallPct} color="bg-violet-500" height="h-2" />
-            <span className="text-xs font-bold text-slate-600 whitespace-nowrap">{Math.round(overallPct)}%</span>
+            <span className="text-xs font-bold text-slate-600 dark:text-slate-300 whitespace-nowrap">{Math.round(overallPct)}%</span>
           </div>
 
           {/* Buttons */}
           <div className="flex items-center gap-2 flex-shrink-0">
+            {/* Dark mode toggle */}
+            <button
+              onClick={() => setDarkMode((v) => !v)}
+              aria-label="Toggle dark mode"
+              className="flex items-center justify-center w-8 h-8 rounded-xl bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 transition-colors text-sm"
+            >
+              {darkMode ? "☀️" : "🌙"}
+            </button>
             <button
               onClick={() => setShowStats((v) => !v)}
-              className="hidden sm:flex items-center gap-1.5 px-3 py-1.5 text-xs font-semibold rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 transition-colors"
+              className="hidden sm:flex items-center gap-1.5 px-3 py-1.5 text-xs font-semibold rounded-xl bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 transition-colors"
             >
               📊 Stats
             </button>
             <button
               onClick={() => setShowLog(true)}
-              className="flex items-center gap-1.5 px-3 py-1.5 text-xs font-semibold rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 transition-colors relative"
+              className="flex items-center gap-1.5 px-3 py-1.5 text-xs font-semibold rounded-xl bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 transition-colors relative"
             >
               📋 Log
               {progress.logs.length > 0 && (
@@ -135,18 +160,18 @@ export default function App() {
         </div>
 
         {/* Phase filter bar */}
-        <div className="border-t border-slate-100 px-4 py-2 flex gap-2 overflow-x-auto scrollbar-none">
+        <div className="border-t border-slate-100 dark:border-slate-800 px-4 py-2 flex gap-2 overflow-x-auto scrollbar-none">
           <button
             onClick={() => { setFilterPhase(null); setShowPriorityOnly(false); }}
             className={`flex-shrink-0 px-3 py-1 rounded-full text-xs font-semibold transition-colors
-              ${filterPhase === null && !showPriorityOnly ? "bg-slate-800 text-white" : "bg-slate-100 text-slate-600 hover:bg-slate-200"}`}
+              ${filterPhase === null && !showPriorityOnly ? "bg-slate-800 text-white dark:bg-slate-100 dark:text-slate-900" : "bg-slate-100 text-slate-600 hover:bg-slate-200 dark:bg-slate-800 dark:text-slate-300 dark:hover:bg-slate-700"}`}
           >
             All
           </button>
           <button
             onClick={() => { setShowPriorityOnly((v) => !v); setFilterPhase(null); }}
             className={`flex-shrink-0 px-3 py-1 rounded-full text-xs font-semibold transition-colors
-              ${showPriorityOnly ? "bg-amber-500 text-white" : "bg-amber-50 text-amber-700 hover:bg-amber-100"}`}
+              ${showPriorityOnly ? "bg-amber-500 text-white" : "bg-amber-50 text-amber-700 hover:bg-amber-100 dark:bg-amber-950 dark:text-amber-400 dark:hover:bg-amber-900"}`}
           >
             ⭐ Priority
           </button>
@@ -155,7 +180,7 @@ export default function App() {
               key={p.id}
               onClick={() => { setFilterPhase(filterPhase === p.id ? null : p.id); setShowPriorityOnly(false); }}
               className={`flex-shrink-0 px-3 py-1 rounded-full text-xs font-semibold transition-colors whitespace-nowrap
-                ${filterPhase === p.id ? `bg-gradient-to-r ${p.gradient} text-white shadow-sm` : "bg-slate-100 text-slate-600 hover:bg-slate-200"}`}
+                ${filterPhase === p.id ? `bg-gradient-to-r ${p.gradient} text-white shadow-sm` : "bg-slate-100 text-slate-600 hover:bg-slate-200 dark:bg-slate-800 dark:text-slate-300 dark:hover:bg-slate-700"}`}
             >
               {p.icon} Phase {p.id}
             </button>
@@ -169,7 +194,7 @@ export default function App() {
         <main className="flex-1 min-w-0">
           {/* Hero banner */}
           {!searchQuery && filterPhase === null && !showPriorityOnly && (
-            <div className="mb-6 rounded-2xl overflow-hidden bg-gradient-to-br from-violet-600 via-indigo-600 to-blue-600 p-6 shadow-lg">
+            <div className="mb-6 rounded-2xl overflow-hidden bg-gradient-to-br from-violet-600 via-indigo-600 to-blue-600 dark:from-violet-800 dark:via-indigo-800 dark:to-blue-800 p-6 shadow-lg">
               <div className="flex items-start justify-between flex-wrap gap-4">
                 <div>
                   <h2 className="text-white font-extrabold text-xl mb-1">
@@ -208,11 +233,11 @@ export default function App() {
 
           {/* Priority notice */}
           {showPriorityOnly && (
-            <div className="mb-4 rounded-xl bg-amber-50 border border-amber-200 p-3 flex items-start gap-2">
+            <div className="mb-4 rounded-xl bg-amber-50 dark:bg-amber-950 border border-amber-200 dark:border-amber-900 p-3 flex items-start gap-2">
               <span className="text-xl">⭐</span>
               <div>
-                <p className="font-bold text-amber-800 text-sm">Priority Topics for Your Career Goals</p>
-                <p className="text-xs text-amber-600">
+                <p className="font-bold text-amber-800 dark:text-amber-300 text-sm">Priority Topics for Your Career Goals</p>
+                <p className="text-xs text-amber-600 dark:text-amber-400">
                   These 17 topics form the mathematical backbone of modern software engineering,
                   cybersecurity, AI/ML, robotics, and signal engineering.
                 </p>
@@ -222,14 +247,14 @@ export default function App() {
 
           {/* Search results info */}
           {searchQuery && (
-            <p className="mb-4 text-sm text-slate-500">
-              Found <span className="font-bold text-slate-700">{filteredTopics.length}</span> topics matching "{searchQuery}"
+            <p className="mb-4 text-sm text-slate-500 dark:text-slate-400">
+              Found <span className="font-bold text-slate-700 dark:text-slate-200">{filteredTopics.length}</span> topics matching "{searchQuery}"
             </p>
           )}
 
           {/* No results */}
           {groupedByPhase.length === 0 && (
-            <div className="flex flex-col items-center justify-center py-20 text-slate-400">
+            <div className="flex flex-col items-center justify-center py-20 text-slate-400 dark:text-slate-500">
               <span className="text-5xl mb-3">🔍</span>
               <p className="font-semibold">No topics found</p>
               <p className="text-sm">Try a different search or filter</p>
@@ -260,17 +285,17 @@ export default function App() {
             />
 
             {/* Quick actions */}
-            <div className="bg-white rounded-2xl border border-slate-200 p-4 shadow-sm space-y-2">
-              <h3 className="font-bold text-slate-800 text-sm flex items-center gap-2">
+            <div className="bg-white dark:bg-slate-900 rounded-2xl border border-slate-200 dark:border-slate-800 p-4 shadow-sm space-y-2">
+              <h3 className="font-bold text-slate-800 dark:text-slate-100 text-sm flex items-center gap-2">
                 <span>⚡</span> Quick Actions
               </h3>
               <button
                 onClick={() => setShowLog(true)}
-                className="w-full text-left px-3 py-2 rounded-xl bg-slate-50 hover:bg-violet-50 text-sm text-slate-700 font-medium transition-colors flex items-center gap-2"
+                className="w-full text-left px-3 py-2 rounded-xl bg-slate-50 hover:bg-violet-50 dark:bg-slate-800 dark:hover:bg-violet-950 text-sm text-slate-700 dark:text-slate-200 font-medium transition-colors flex items-center gap-2"
               >
                 📋 View Activity Log
                 {progress.logs.length > 0 && (
-                  <span className="ml-auto bg-violet-100 text-violet-700 text-xs px-2 py-0.5 rounded-full font-bold">
+                  <span className="ml-auto bg-violet-100 dark:bg-violet-900 text-violet-700 dark:text-violet-300 text-xs px-2 py-0.5 rounded-full font-bold">
                     {progress.logs.length}
                   </span>
                 )}
@@ -279,15 +304,15 @@ export default function App() {
                 onClick={() => {
                   if (window.confirm("Reset ALL progress? This cannot be undone.")) clearAllProgress();
                 }}
-                className="w-full text-left px-3 py-2 rounded-xl bg-red-50 hover:bg-red-100 text-sm text-red-600 font-medium transition-colors flex items-center gap-2"
+                className="w-full text-left px-3 py-2 rounded-xl bg-red-50 hover:bg-red-100 dark:bg-red-950 dark:hover:bg-red-900 text-sm text-red-600 dark:text-red-400 font-medium transition-colors flex items-center gap-2"
               >
                 🗑️ Reset All Progress
               </button>
             </div>
 
             {/* Priority reminder */}
-            <div className="bg-amber-50 border border-amber-200 rounded-2xl p-4">
-              <h3 className="font-bold text-amber-800 text-sm flex items-center gap-2 mb-2">
+            <div className="bg-amber-50 dark:bg-amber-950 border border-amber-200 dark:border-amber-900 rounded-2xl p-4">
+              <h3 className="font-bold text-amber-800 dark:text-amber-300 text-sm flex items-center gap-2 mb-2">
                 <span>⭐</span> Priority Focus Areas
               </h3>
               <div className="space-y-1">
@@ -295,7 +320,7 @@ export default function App() {
                   "Statistics", "Discrete Math", "Graph Theory", "Number Theory",
                   "Differential Equations", "Signal Processing", "Optimization", "Information Theory"
                 ].map((item) => (
-                  <div key={item} className="flex items-center gap-1.5 text-xs text-amber-700">
+                  <div key={item} className="flex items-center gap-1.5 text-xs text-amber-700 dark:text-amber-400">
                     <span>→</span> {item}
                   </div>
                 ))}
@@ -309,7 +334,7 @@ export default function App() {
       <div className="fixed bottom-4 right-4 z-20 flex flex-col gap-2 lg:hidden">
         <button
           onClick={() => setShowStats((v) => !v)}
-          className="w-12 h-12 rounded-full bg-white border border-slate-200 shadow-lg flex items-center justify-center text-xl"
+          className="w-12 h-12 rounded-full bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 shadow-lg flex items-center justify-center text-xl"
         >
           📊
         </button>
@@ -329,11 +354,11 @@ export default function App() {
       {/* ── Mobile stats modal ── */}
       {showStats && (
         <div className="fixed inset-0 z-50 flex items-end sm:items-center justify-center p-4 bg-black/50 backdrop-blur-sm lg:hidden">
-          <div className="bg-white rounded-2xl shadow-2xl w-full max-w-sm p-4">
+          <div className="bg-white dark:bg-slate-900 rounded-2xl shadow-2xl w-full max-w-sm p-4">
             <div className="flex justify-between items-center mb-3">
-              <h2 className="font-bold text-slate-800">Progress Stats</h2>
-              <button onClick={() => setShowStats(false)} className="p-1.5 rounded-xl hover:bg-slate-100">
-                <svg className="w-5 h-5 text-slate-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+              <h2 className="font-bold text-slate-800 dark:text-slate-100">Progress Stats</h2>
+              <button onClick={() => setShowStats(false)} className="p-1.5 rounded-xl hover:bg-slate-100 dark:hover:bg-slate-800">
+                <svg className="w-5 h-5 text-slate-500 dark:text-slate-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                   <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
                 </svg>
               </button>
