@@ -15,8 +15,8 @@ export default function SubtopicCard({ subtopic, isCompleted, onToggle, phaseGra
     <div
       className={`rounded-xl border transition-all duration-300 overflow-hidden
         ${isCompleted
-          ? "border-emerald-300 bg-emerald-50/60"
-          : "border-slate-200 bg-white hover:border-slate-300 hover:shadow-sm"
+          ? "border-emerald-300 bg-emerald-50/60 dark:border-emerald-800 dark:bg-emerald-950/40"
+          : "border-slate-200 bg-white hover:border-slate-300 hover:shadow-sm dark:border-slate-800 dark:bg-slate-900 dark:hover:border-slate-700"
         }`}
     >
       <div className="flex items-start gap-3 p-3">
@@ -26,7 +26,7 @@ export default function SubtopicCard({ subtopic, isCompleted, onToggle, phaseGra
           className={`mt-0.5 w-5 h-5 rounded-full border-2 flex-shrink-0 flex items-center justify-center transition-all duration-200
             ${isCompleted
               ? "border-emerald-500 bg-emerald-500"
-              : "border-slate-300 hover:border-emerald-400"
+              : "border-slate-300 hover:border-emerald-400 dark:border-slate-600 dark:hover:border-emerald-500"
             }`}
           aria-label={isCompleted ? "Mark as incomplete" : "Mark as complete"}
         >
@@ -39,12 +39,12 @@ export default function SubtopicCard({ subtopic, isCompleted, onToggle, phaseGra
 
         <div className="flex-1 min-w-0">
           <div className="flex items-center justify-between gap-2">
-            <p className={`text-sm font-semibold leading-tight ${isCompleted ? "line-through text-slate-400" : "text-slate-800"}`}>
+            <p className={`text-sm font-semibold leading-tight ${isCompleted ? "line-through text-slate-400 dark:text-slate-500" : "text-slate-800 dark:text-slate-100"}`}>
               {subtopic.title}
             </p>
             <button
               onClick={() => setExpanded((v) => !v)}
-              className="text-xs text-slate-400 hover:text-slate-600 flex-shrink-0 flex items-center gap-1 transition-colors"
+              className="text-xs text-slate-400 hover:text-slate-600 dark:text-slate-500 dark:hover:text-slate-300 flex-shrink-0 flex items-center gap-1 transition-colors"
             >
               {expanded ? (
                 <>Hide <svg className="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M5 15l7-7 7 7"/></svg></>
@@ -53,16 +53,16 @@ export default function SubtopicCard({ subtopic, isCompleted, onToggle, phaseGra
               )}
             </button>
           </div>
-          <p className="text-xs text-slate-500 mt-0.5 leading-relaxed">{subtopic.description}</p>
+          <p className="text-xs text-slate-500 dark:text-slate-400 mt-0.5 leading-relaxed">{subtopic.description}</p>
         </div>
       </div>
 
       {expanded && (
-        <div className="border-t border-slate-100 px-3 pb-3 pt-2 space-y-2">
+        <div className="border-t border-slate-100 dark:border-slate-800 px-3 pb-3 pt-2 space-y-2">
           {subtopic.example && (
-            <div className="bg-slate-50 rounded-lg p-2.5">
-              <p className="text-[10px] font-bold uppercase tracking-wider text-slate-400 mb-1">Example</p>
-              <p className="text-xs text-slate-700 font-mono leading-relaxed">{subtopic.example}</p>
+            <div className="bg-slate-50 dark:bg-slate-800 rounded-lg p-2.5">
+              <p className="text-[10px] font-bold uppercase tracking-wider text-slate-400 dark:text-slate-500 mb-1">Example</p>
+              <p className="text-xs text-slate-700 dark:text-slate-300 font-mono leading-relaxed">{subtopic.example}</p>
             </div>
           )}
           {subtopic.formula && (

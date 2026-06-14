@@ -13,20 +13,20 @@ export default function StatsPanel({ completedTopics, completedSubtopics }: Prop
   const subtopicPct = (completedSubtopics.length / totalSubtopics) * 100;
 
   return (
-    <div className="bg-white rounded-2xl border border-slate-200 p-4 shadow-sm space-y-4">
-      <h3 className="font-bold text-slate-800 flex items-center gap-2">
+    <div className="bg-white dark:bg-slate-900 rounded-2xl border border-slate-200 dark:border-slate-800 p-4 shadow-sm space-y-4">
+      <h3 className="font-bold text-slate-800 dark:text-slate-100 flex items-center gap-2">
         <span>📊</span> Overall Progress
       </h3>
 
       {/* Global stats */}
       <div className="grid grid-cols-2 gap-3">
-        <div className="bg-violet-50 rounded-xl p-3 text-center">
-          <p className="text-2xl font-extrabold text-violet-600">{completedTopics.length}</p>
-          <p className="text-xs text-slate-500">/ {totalTopics} Topics</p>
+        <div className="bg-violet-50 dark:bg-violet-950 rounded-xl p-3 text-center">
+          <p className="text-2xl font-extrabold text-violet-600 dark:text-violet-400">{completedTopics.length}</p>
+          <p className="text-xs text-slate-500 dark:text-slate-400">/ {totalTopics} Topics</p>
         </div>
-        <div className="bg-emerald-50 rounded-xl p-3 text-center">
-          <p className="text-2xl font-extrabold text-emerald-600">{completedSubtopics.length}</p>
-          <p className="text-xs text-slate-500">/ {totalSubtopics} Sub-Topics</p>
+        <div className="bg-emerald-50 dark:bg-emerald-950 rounded-xl p-3 text-center">
+          <p className="text-2xl font-extrabold text-emerald-600 dark:text-emerald-400">{completedSubtopics.length}</p>
+          <p className="text-xs text-slate-500 dark:text-slate-400">/ {totalSubtopics} Sub-Topics</p>
         </div>
       </div>
 
@@ -49,7 +49,7 @@ export default function StatsPanel({ completedTopics, completedSubtopics }: Prop
 
       {/* Per-phase breakdown */}
       <div>
-        <p className="text-xs font-bold uppercase tracking-wider text-slate-400 mb-2">By Phase</p>
+        <p className="text-xs font-bold uppercase tracking-wider text-slate-400 dark:text-slate-500 mb-2">By Phase</p>
         <div className="space-y-2">
           {phases.map((phase) => {
             const phaseTopics = topics.filter((t) => t.phase === phase.id);
@@ -61,17 +61,17 @@ export default function StatsPanel({ completedTopics, completedSubtopics }: Prop
               pct === 100 ? "bg-emerald-500" :
               pct > 50 ? "bg-blue-500" :
               pct > 0 ? "bg-amber-400" :
-              "bg-slate-300";
+              "bg-slate-300 dark:bg-slate-700";
 
             return (
               <div key={phase.id} className="flex items-center gap-2">
                 <span className="text-sm flex-shrink-0 w-5">{phase.icon}</span>
                 <div className="flex-1 min-w-0">
-                  <div className="flex justify-between text-[10px] text-slate-400 mb-0.5">
+                  <div className="flex justify-between text-[10px] text-slate-400 dark:text-slate-500 mb-0.5">
                     <span className="truncate pr-2">Phase {phase.id}</span>
                     <span>{doneSubs}/{phaseSubIds.length}</span>
                   </div>
-                  <div className="h-1.5 bg-slate-100 rounded-full overflow-hidden">
+                  <div className="h-1.5 bg-slate-100 dark:bg-slate-800 rounded-full overflow-hidden">
                     <div
                       className={`h-1.5 ${barColor} rounded-full transition-all duration-500`}
                       style={{ width: `${pct}%` }}
