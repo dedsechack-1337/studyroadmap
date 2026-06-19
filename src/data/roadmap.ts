@@ -969,4 +969,35 @@ export const topics: Topic[] = [
   { id: "t55", number: 55, title: "Advanced Set Theory", phase: 9, phaseName: "Research-Level Topics", why: "Foundations of mathematics and theoretical computer science.", subtopics: [{ id: "t55-s1", title: "Forcing & Large Cardinals", description: "Independence results — statements neither provable nor disprovable from ZFC.", example: "Continuum hypothesis is independent of ZFC", formula: "Forcing: extend model M to M[G] with generic filter G" }] },
   { id: "t56", number: 56, title: "Noncommutative Geometry", phase: 9, phaseName: "Research-Level Topics", why: "Quantum physics mathematical framework and advanced algebra.", subtopics: [{ id: "t56-s1", title: "Operator Algebras", description: "Geometry where coordinates don't commute — models quantum spaces.", example: "C*-algebras generalizing topological spaces", formula: "xy ≠ yx (noncommutativity)" }] },
   { id: "t57", number: 57, title: "Arithmetic Geometry", phase: 9, phaseName: "Research-Level Topics", why: "Deepest connections between number theory and geometry — Wiles proved Fermat's Last Theorem here.", subtopics: [{ id: "t57-s1", title: "Modular Forms & L-functions", description: "Study of number-theoretic objects using geometric tools.", example: "Fermat's Last Theorem proven via elliptic curves and modular forms", formula: "Modularity theorem: every elliptic curve over ℚ is modular" }] },
+  // ─── PHASE 4 ADDITION ────────────────────────────────────────────────
+  {
+    id: "t58", number: 58, title: "Boolean Algebra", phase: 4, phaseName: "Computer Science Mathematics",
+    why: "The mathematical foundation of digital logic — every CPU, circuit, and bitwise operation in computing runs on Boolean algebra.",
+    subtopics: [
+      {
+        id: "t58-s1", title: "Boolean Operations & Laws",
+        description: "Algebra over {0,1} using AND, OR, NOT, XOR. Governed by identity, commutative, associative, distributive, and De Morgan's laws.",
+        example: "A AND (B OR C) = (A AND B) OR (A AND C) | bitwise flags in permission systems",
+        formula: "De Morgan: ¬(A∧B) = ¬A∨¬B | ¬(A∨B) = ¬A∧¬B"
+      },
+      {
+        id: "t58-s2", title: "Truth Tables & Logic Gates",
+        description: "Truth tables enumerate every input/output combination. Logic gates (AND, OR, NOT, NAND, NOR, XOR, XNOR) are their physical/circuit realization.",
+        example: "NAND gate alone can construct any other gate — basis of CPU design",
+        formula: "XOR: A⊕B = (A∧¬B)∨(¬A∧B) | NAND: ¬(A∧B)"
+      },
+      {
+        id: "t58-s3", title: "Karnaugh Maps & Simplification",
+        description: "Graphical method to minimize Boolean expressions by grouping adjacent 1s, reducing gate count in circuit design.",
+        example: "Simplifying a 4-variable expression from 8 terms down to 2 using a K-map",
+        formula: "SOP (Sum of Products) and POS (Product of Sums) canonical forms"
+      },
+      {
+        id: "t58-s4", title: "Combinational Logic Circuits",
+        description: "Circuits built purely from Boolean expressions with no memory — outputs depend only on current inputs.",
+        example: "Half adder: Sum = A⊕B, Carry = A∧B | multiplexers, decoders",
+        formula: "Full adder: Sum = A⊕B⊕Cin | Cout = (A∧B)∨(Cin∧(A⊕B))"
+      },
+    ]
+  },
 ];

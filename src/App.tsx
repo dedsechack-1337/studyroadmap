@@ -6,7 +6,7 @@ import ActivityLog from "./components/ActivityLog";
 import StatsPanel from "./components/StatsPanel";
 import ProgressBar from "./components/ProgressBar";
 
-const PRIORITY_TOPICS = [1, 2, 4, 5, 6, 7, 9, 11, 12, 17, 19, 20, 21, 23, 29, 31, 28];
+const PRIORITY_TOPICS = [1, 2, 4, 5, 6, 7, 9, 11, 12, 17, 19, 20, 21, 23, 29, 31, 28, 58];
 
 export default function App() {
   const {
@@ -98,7 +98,7 @@ export default function App() {
             </div>
             <div className="hidden sm:block">
               <h1 className="font-extrabold text-slate-800 dark:text-slate-100 text-sm leading-none">Master Roadmap</h1>
-              <p className="text-[10px] text-slate-400 dark:text-slate-500 leading-none">57 Topics · 9 Phases</p>
+              <p className="text-[10px] text-slate-400 dark:text-slate-500 leading-none">58 Topics · 9 Phases</p>
             </div>
           </div>
 
@@ -201,7 +201,7 @@ export default function App() {
                     🚀 Master Roadmap Tracker
                   </h2>
                   <p className="text-white/80 text-sm max-w-lg">
-                    57 topics across 9 phases — Software Engineering, DSA, Cybersecurity, AI/ML,
+                    58 topics across 9 phases — Software Engineering, DSA, Cybersecurity, AI/ML,
                     Robotics, Electronics, Embedded Systems, Signal Processing, Physics & Chemistry.
                   </p>
                   <div className="mt-3 flex flex-wrap gap-2">
@@ -238,7 +238,7 @@ export default function App() {
               <div>
                 <p className="font-bold text-amber-800 dark:text-amber-300 text-sm">Priority Topics for Your Career Goals</p>
                 <p className="text-xs text-amber-600 dark:text-amber-400">
-                  These 17 topics form the mathematical backbone of modern software engineering,
+                  These 18 topics form the mathematical backbone of modern software engineering,
                   cybersecurity, AI/ML, robotics, and signal engineering.
                 </p>
               </div>
