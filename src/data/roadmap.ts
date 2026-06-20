@@ -1000,4 +1000,88 @@ export const topics: Topic[] = [
       },
     ]
   },
+  {
+    id: "t59", number: 59, title: "Algorithmic Complexity", phase: 4, phaseName: "Computer Science Mathematics",
+    why: "The mathematical language for comparing algorithm efficiency — the single most-used concept across DSA, system design, and technical interviews.",
+    subtopics: [
+      {
+        id: "t59-s1", title: "Big-O, Big-Ω, Big-Θ Notation",
+        description: "Asymptotic bounds describing how runtime/memory grow as input size n → ∞. O = upper bound (worst case), Ω = lower bound (best case), Θ = tight bound.",
+        example: "Linear search: O(n) | Binary search: O(log n) | Bubble sort: O(n²)",
+        formula: "f(n) = O(g(n)) ⟺ ∃c,n₀: f(n) ≤ c·g(n) for all n ≥ n₀"
+      },
+      {
+        id: "t59-s2", title: "Time vs Space Complexity",
+        description: "Time complexity measures operations as input grows; space complexity measures memory used, including auxiliary structures and recursion stack.",
+        example: "Memoized Fibonacci: O(n) time, O(n) space vs naive recursive: O(2ⁿ) time, O(n) space",
+        formula: "Total space = input space + auxiliary space"
+      },
+      {
+        id: "t59-s3", title: "Best, Average, Worst Case Analysis",
+        description: "Different input arrangements yield different runtimes — analyzing all three gives a full performance picture.",
+        example: "Quicksort: best/average O(n log n), worst O(n²) on already-sorted input with poor pivot choice",
+        formula: "Average case uses expected value over all input distributions"
+      },
+      {
+        id: "t59-s4", title: "Common Complexity Classes",
+        description: "Ranking of growth rates from fastest to slowest, used to compare algorithm scalability.",
+        example: "O(1) < O(log n) < O(n) < O(n log n) < O(n²) < O(2ⁿ) < O(n!)",
+        formula: "Hash table lookup O(1) vs balanced BST O(log n) vs linear scan O(n)"
+      },
+    ]
+  },
+  {
+    id: "t60", number: 60, title: "Recurrence Relations", phase: 4, phaseName: "Computer Science Mathematics",
+    why: "Analyzes recursive algorithms mathematically — essential for understanding divide-and-conquer methods like merge sort, quicksort, and binary search.",
+    subtopics: [
+      {
+        id: "t60-s1", title: "Setting Up Recurrences",
+        description: "Expressing a recursive algorithm's runtime as a function of itself on smaller inputs.",
+        example: "Merge sort: T(n) = 2T(n/2) + O(n) — two halves plus linear merge step",
+        formula: "T(n) = aT(n/b) + f(n)  [a = subproblems, b = division factor, f(n) = combine cost]"
+      },
+      {
+        id: "t60-s2", title: "Master Theorem",
+        description: "Direct formula for solving divide-and-conquer recurrences without unrolling them by hand.",
+        example: "Binary search: T(n) = T(n/2) + O(1) → T(n) = O(log n)",
+        formula: "Compare f(n) to n^(log_b a): 3 cases determine T(n) = Θ(n^(log_b a)), Θ(n^(log_b a) log n), or Θ(f(n))"
+      },
+      {
+        id: "t60-s3", title: "Recursion Tree & Substitution Methods",
+        description: "Alternative solving techniques: recursion trees visualize cost per level; substitution guesses then proves a solution by induction.",
+        example: "Fibonacci recurrence T(n) = T(n-1) + T(n-2) + O(1) → exponential without memoization",
+        formula: "Sum cost across all levels of the recursion tree to get total T(n)"
+      },
+    ]
+  },
+  {
+    id: "t61", number: 61, title: "Automata Theory & Formal Languages", phase: 4, phaseName: "Computer Science Mathematics",
+    why: "Theoretical foundation of computation — compilers, regex engines, and the proven limits of what algorithms can ever solve (P vs NP).",
+    subtopics: [
+      {
+        id: "t61-s1", title: "Finite Automata & Regular Expressions",
+        description: "Finite automata (DFA/NFA) are simple state machines that recognize regular languages, the class of patterns describable by regular expressions.",
+        example: "Email validator regex | DFA recognizing binary strings divisible by 3",
+        formula: "DFA = (Q, Σ, δ, q₀, F) — states, alphabet, transition function, start, accept states"
+      },
+      {
+        id: "t61-s2", title: "Context-Free Grammars & Pushdown Automata",
+        description: "Grammars with rules like A → αβ that generate nested/recursive structures; pushdown automata (DFA + stack) recognize them.",
+        example: "Parsing balanced parentheses or programming language syntax",
+        formula: "CFG rule: nonterminal → (terminals | nonterminals)*"
+      },
+      {
+        id: "t61-s3", title: "Turing Machines & Decidability",
+        description: "Turing machines formalize 'what is computable.' Decidable problems have an algorithm that always halts with an answer; undecidable ones don't.",
+        example: "The Halting Problem is famously undecidable — no algorithm can determine in general if a program halts",
+        formula: "Church-Turing thesis: any effectively computable function is Turing-computable"
+      },
+      {
+        id: "t61-s4", title: "Computational Complexity Classes (P vs NP)",
+        description: "Classifies decision problems by resource requirements. P = solvable in polynomial time; NP = solution verifiable in polynomial time.",
+        example: "Sorting ∈ P | Traveling Salesman (decision version) ∈ NP-complete",
+        formula: "P ⊆ NP ⊆ NP-hard | P = NP is the most famous open problem in CS"
+      },
+    ]
+  },
 ];
